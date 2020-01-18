@@ -3,6 +3,7 @@ function tmDetailFactory(
     $q,
     $state,
     $stateParams,
+    $dataSource,
     tmNotifier,
     tmDialogSvc,
     tmWindowStorage
@@ -14,6 +15,7 @@ function tmDetailFactory(
             $q,
             $state,
             $stateParams,
+            $dataSource,
             tmNotifier,
             tmDialogSvc,
             tmWindowStorage,
@@ -27,6 +29,7 @@ tmDetailFactory.$inject = [
     '$q',
     '$state',
     '$stateParams',
+    '$dataSource',
     'tmNotifier',
     'tmDialogSvc',
     'tmWindowStorage'
@@ -39,15 +42,21 @@ function BaseDetail(
     $q,
     $state,
     $stateParams,
+    $dataSource,
     tmNotifier,
     tmDialogSvc,
     tmWindowStorage,
     constructorArgs
 ) {
+    this.constructorArgs = constructorArgs;
+
     var self = this;
     this.$scope = constructorArgs.$scope;
     this.isLoading = false;
     this.$stateParams = $stateParams;
+    console.log("constructorArgs:", constructorArgs);
+    console.log("$dataSource:", $dataSource);
+    this.Model = $dataSource.load(this.constructorArgs.model);
     this.tmNotifier = tmNotifier;
     this.tmDialogSvc = tmDialogSvc;
     this.tmWindowStorage = tmWindowStorage;
@@ -65,7 +74,7 @@ function BaseDetail(
             method: function () {
                 self.addItem();
             }
-        }, 
+        },
         refresh: {
             label: "Refresh",
             method: function () {
@@ -84,13 +93,20 @@ function BaseDetail(
                 };
                 self.tmDialogSvc.showDialog({}, dialogOptions).then(function () {
                     self.docSvc.deleteDocument();
-                    $state.go(self.constructorArgs.listView);
+
+                    console.log("tmDetailFactory, self.Model:", self.Model);
+
                     // self.Model.remove(id).then(function (collection) {
                     //     self.tmNotifier.notify("The item has been deleted");
                     //     self.items = collection;
                     // });
-                }, function () {
 
+                    //fixes bug where after closing the window, it brings us back to Contracts list.
+                    self.$state.go(self.$state.back.fromState, self.$state.back.fromParams);
+
+                }, function () {
+                    //currently an empty anonymous function?
+                    console.log("delete method was called!");
                 });
             }
         }
@@ -178,9 +194,9 @@ function BaseDetail(
         this.canILeave().then(function (canILeave) {
             if (canILeave) {
                 self.docSvc.clearDocument();
-                //self.$state.go(self.$state.back.fromState, self.$state.back.fromParams)
+                self.$state.go(self.$state.back.fromState, self.$state.back.fromParams);
 
-                self.$state.go(constructorArgs.listView);
+                //self.$state.go(constructorArgs.listView);
             }
         });
     };

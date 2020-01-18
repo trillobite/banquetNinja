@@ -73,6 +73,7 @@ class tmMenuItemDetailCtrl {
 tmMenuItemDetailCtrl.$inject = [
 
     '$scope',
+    '$dataSource',
     'tmDetailFactory',
     'tmMenuItemDocSvc'
 ];

@@ -47,10 +47,8 @@ class tmDialogAddDocPartCtrl {
                 self.$scope.$apply();
                 return;
             }
-            //self.$rootScope.$digest();
             self.$mdDialog.hide(self.item);
             //self.$state.reload();
-            //the view needs to update... but it's not... 
         });
         
        

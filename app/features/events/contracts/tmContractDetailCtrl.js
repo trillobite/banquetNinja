@@ -5,11 +5,12 @@ import config from 'config';
 
 function tmContractDetailCtrl (
     $scope,
+    $dataSource,
     tmDetailFactory,
     tmContractDocSvc,
     $timeout,
     uibDateParser,
-    $state
+    $state,
 ) {
     var self = this;
     var constructorArgs = {
@@ -22,6 +23,8 @@ function tmContractDetailCtrl (
         addHeaderText: "Add Contract"
     };
     
+    console.log("tmContractDetailCtrl.js, tmDetailFactory:", tmDetailFactory);
+
     this.__proto__ = tmDetailFactory(constructorArgs);
 
     self.models = {newEventStep: {}};
@@ -220,6 +223,7 @@ function tmContractDetailCtrl (
 
 tmContractDetailCtrl.$inject = [
     '$scope',
+    '$dataSource',
     'tmDetailFactory',
     'tmContractDocSvc',
     '$timeout',

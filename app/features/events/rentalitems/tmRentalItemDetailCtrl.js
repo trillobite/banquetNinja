@@ -51,6 +51,7 @@ function tmRentalItemDetailCtrl (
 
 tmRentalItemDetailCtrl.$inject = [
     '$scope',
+    '$dataSource',
     'tmDetailFactory',
     'tmRentalItemDocSvc'
 ];

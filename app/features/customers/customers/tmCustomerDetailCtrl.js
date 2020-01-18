@@ -50,18 +50,31 @@ function tmCustomerDetailCtrl(
     });
 
     this.getRelatedContracts = function () {
-      var self = this;
-      let relatedContracts = self.docSvc.doc.contracts.map(contract => `valueIn[_id]=${contract._id}`).join("&");
-      if (relatedContracts.length === 0) return;
-      let url =  config.apiBase + '/events/contracts?select=eventDate%20eventName&' + relatedContracts;
+        var self = this;
+        let relatedContracts = self.docSvc.doc.contracts.map(contract => `valueIn[_id]=${contract._id}`).join("&");
+        if (relatedContracts.length === 0) return;
+        let url = config.apiBase + '/events/contracts?select=eventDate%20eventName&' + relatedContracts;
 
-      var req = {
-        method: 'GET',
-        url: url 
-      };
-      $http(req).then(function(result) {
-        self.contractsList = result.data.data;
-      });
+        var req = {
+            method: 'GET',
+            url: url
+        };
+
+        //corrects a bug where self does not have a contractsList property...
+        // let chkProperty = (obj, strPropName) => {
+        //     if (!obj.hasOwnProperty(strPropName)) {
+        //         console.log("adding property", strPropName);
+        //         obj[strPropName] = undefined;
+        //         return true;
+        //     }
+        //     return false;
+        // };
+
+        $http(req).then(function (result) {
+            console.log("result data:", result.data.data);
+            //chkProperty(self, "contractsList");
+            self.contractsList = result.data.data;
+        });
     }
 
     this.getDetailTitle = function () {
@@ -85,16 +98,15 @@ function tmCustomerDetailCtrl(
         var Contract = $dataSource.load('Contract');
         self.tmDialogSvc.showDialog(dialogConfig).then(function (item) {
             Contract.add(item).then(function (item) {
-                console.log("tmCustomerDetailCtrl, addContract:", item);
-                console.log("tmCustomerDetailCtrl, addContract: contractsList:", self.contractsList);
-                debugger;
+                //console.log("tmCustomerDetailCtrl, addContract:", item);
+                //console.log("tmCustomerDetailCtrl, addContract: contractsList:", self.contractsList);
                 self.docSvc.addContract(item);
-                self.docSvc.saveChanges().then(function(){
+                self.docSvc.saveChanges().then(function () {
                     self.contractsList.push(item);
                     self.docSvc.refreshFromServer();
                     //self.getRelatedContracts(); //we want to get the most recent contract that was just made...
                 });
-                
+
 
             });
         });
@@ -123,7 +135,7 @@ function tmCustomerDetailCtrl(
             } else {
                 self.docSvc.updateAddress(index, item);
             }
-            self.docSvc.saveChanges().then(function(){
+            self.docSvc.saveChanges().then(function () {
                 self.docSvc.refreshFromServer();
             });
 
@@ -153,7 +165,7 @@ function tmCustomerDetailCtrl(
             } else {
                 self.docSvc.updateEmail(index, item);
             }
-            self.docSvc.saveChanges().then(function(){
+            self.docSvc.saveChanges().then(function () {
                 self.docSvc.refreshFromServer();
             });
         });
@@ -181,7 +193,7 @@ function tmCustomerDetailCtrl(
             } else {
                 self.docSvc.updatePhoneNumber(index, item);
             }
-            self.docSvc.saveChanges().then(function(){
+            self.docSvc.saveChanges().then(function () {
                 self.docSvc.refreshFromServer();
             });
         });

@@ -39,6 +39,7 @@ function tmMenuGroupDetailCtrl (
 
 tmMenuGroupDetailCtrl.$inject = [
     '$scope',
+    '$dataSource',
     'tmDetailFactory',
     'tmMenuGroupDocSvc'
 ];

@@ -48,6 +48,7 @@ function tmVenueDetailCtrl (
 
 tmVenueDetailCtrl.$inject = [
     '$scope',
+    '$dataSource',
     'tmDetailFactory',
     'tmVenueDocSvc'
 ];
