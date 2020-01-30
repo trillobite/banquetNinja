@@ -11,7 +11,8 @@
     "start": "node server.js",
     "postinstall": "node deploy.js",
     "dev": "webpack-dev-server --devtool eval --config webpack.config.js --progress --colors --hot --content-base --hide-modules app/ ",
-    "prodStart": "set NODE_ENV=production webpack -p --config webpack.production.config.js"
+    "prodStart": "set NODE_ENV=production webpack -p --config webpack.production.config.js",
+    "http-srv": "http-server ./public -p 3000"
   },
   "author": "Christopher J. Baily",
   "license": "ISC",
