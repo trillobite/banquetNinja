@@ -11,7 +11,9 @@
     "start": "node server.js",
     "postinstall": "node deploy.js",
     "dev": "webpack-dev-server --devtool eval --config webpack.config.js --progress --colors --hot --content-base --hide-modules app/ ",
-    "build": "webpack --config webpack.production.config.js --progress --colors"
+    "prodBuild": "webpack --config webpack.production.config.js --progress --colors",
+    "stageBuild": "webpack --config webpack.stage.config.js --progress --colors",
+    "http-srv": "http-server ./public -p 3000"
   },
   "author": "Christopher J. Baily",
   "license": "ISC",
