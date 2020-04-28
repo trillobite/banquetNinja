@@ -7,6 +7,7 @@ div(flex="100")
             col.tableNav(span="1")
         thead
             th Event Name
+            th Venue
             th Date
             th Time
             th.text-right
@@ -14,6 +15,7 @@ div(flex="100")
         tbody
             tr(ng-repeat="item in vm.items | filter:searchText | orderBy:vm.sortOrder")
                 td {{::item.eventName }} ({{::item.customer.firstName}} {{::item.customer.lastName}})
+                td {{::item.venues[0].name}}
                 td {{::item.eventDate | date:'longDate'}}
                 td(style="white-space: nowrap") {{::item.eventDate | tmZuluTime | date:'shortTime'}}
                 td(style="padding: 4px")
